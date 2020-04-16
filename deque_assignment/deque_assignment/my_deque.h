@@ -9,7 +9,7 @@ class my_deque {
 	unsigned int rindex;
 	unsigned int lindex;
 	unsigned int sizeOfArray;
-	unsigned int* arrayDeque;
+	 int* arrayDeque;
 
 public: 
 	my_deque(unsigned int initial_size);
@@ -17,8 +17,8 @@ public:
 	~my_deque();
 	unsigned int get_used(); 
 	unsigned int get_size(); 
-	unsigned int get_lindex(); 
-	unsigned int get_rindex(); 
+	unsigned int get_lIndex(); 
+	unsigned int get_rIndex(); 
 	void push_back(int v);
 	void push_front(int v);
 	int pop_back(); 

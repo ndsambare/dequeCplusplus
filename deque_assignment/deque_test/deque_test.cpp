@@ -17,7 +17,7 @@ namespace dequetest
 	{
 	public:
 
-		TEST_METHOD(push_back_pop_back)
+		/*TEST_METHOD(push_back_pop_back)
 		{
 			my_deque d = my_deque(init_size);
 			for (int i = 0; i < n; i++) {
@@ -126,7 +126,7 @@ namespace dequetest
 				Assert::AreEqual((n * 10 - (i + 1)), front_ret);
 			}
 		}
-
+*/
 		TEST_METHOD(random_test_large)
 		{
 			srand(time(NULL));
@@ -172,31 +172,31 @@ namespace dequetest
 			Assert::ExpectException<std::exception>(func2);
 		}
 
-		TEST_METHOD(recenter_back)
-		{
+		//TEST_METHOD(recenter_back)
+		//{
 
-			my_deque d = my_deque(init_size);
-			size_t start_size = d.get_size();
+		//	my_deque d = my_deque(init_size);
+		//	size_t start_size = d.get_size();
 
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-				Assert::AreEqual(i, d.pop_front());
-			}
+		//	for (int i = 0; i < n; i++) {
+		//		d.push_back(i);
+		//		Assert::AreEqual(i, d.pop_front());
+		//	}
 
-			Assert::IsTrue(d.get_size() <= start_size);
-		}
+		//	Assert::IsTrue(d.get_size() <= start_size);
+		//}
 
-		TEST_METHOD(recenter_front)
-		{
-			my_deque d = my_deque(init_size);
-			size_t start_size = d.get_size();
-			for (int i = 0; i < n; i++) {
-				d.push_front(i);
-				Assert::AreEqual(i, d.pop_back());
-			}
+		//TEST_METHOD(recenter_front)
+		//{
+		//	my_deque d = my_deque(init_size);
+		//	size_t start_size = d.get_size();
+		//	for (int i = 0; i < n; i++) {
+		//		d.push_front(i);
+		//		Assert::AreEqual(i, d.pop_back());
+		//	}
 
-			Assert::IsTrue(d.get_size() <= start_size);
-		}
+		//	Assert::IsTrue(d.get_size() <= start_size);
+		//}
 
 		TEST_METHOD(subscript)
 		{
@@ -214,7 +214,7 @@ namespace dequetest
 			Assert::ExpectException<std::exception>(func);
 		}
 
-		TEST_METHOD(copy)
+		/*TEST_METHOD(copy)
 		{
 			my_deque d = my_deque(init_size);
 
@@ -240,181 +240,181 @@ namespace dequetest
 
 				Assert::AreEqual(d_copy.pop_front(), d.pop_front());
 			}
-		}
+		}*/
 	};
 
-	TEST_CLASS(dequeiteratortest)
-	{
-	public:
-
-		TEST_METHOD(construct_past_the_end)
-		{
-			my_deque d = my_deque(init_size);
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque_iterator di(d.get_mem() + d.get_rIndex(), &d);
-			Assert::AreEqual(d.get_mem() + d.get_rIndex(), di.get_mem());
-		}
-		TEST_METHOD(invalid_constructor)
-		{
-			my_deque d = my_deque(init_size);
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque d2(4);
-			d2.push_back(5);
-			my_deque_iterator di(d2.get_mem(), &d);
-			Assert::AreEqual(di.get_mem(), (int*)nullptr);
-
-			my_deque_iterator di2(d.get_mem() - 1, &d);
-			Assert::AreEqual(di2.get_mem(), (int*)nullptr);
-		}
-		TEST_METHOD(good_constructor)
-		{
-			my_deque d = my_deque(init_size);
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
-			Assert::AreEqual(di.get_mem(), d.get_mem() + d.get_lIndex() + 1);
-
-			my_deque_iterator di2(d.get_mem() + d.get_lIndex() + n / 2, &d);
-			Assert::AreEqual(d.get_mem() + d.get_lIndex() + n / 2, di2.get_mem());
-		}
-		TEST_METHOD(addition)
-		{
-			my_deque d = my_deque(init_size);
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
-			my_deque_iterator di2 = di + n / 2;
-			Assert::AreEqual(di2.get_mem(), d.get_mem() + d.get_lIndex() + n / 2 + 1);
-
-			my_deque_iterator di3 = di + n;
-			Assert::AreEqual(di3.get_mem(), d.get_mem() + d.get_rIndex());
-
-			my_deque_iterator di4 = di2 + -6;
-			Assert::AreEqual(di4.get_mem(), (int*)nullptr);
-		}
-
-		TEST_METHOD(plus_equals)
-		{
-			my_deque d = my_deque(init_size);
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
-			di += n / 2;
-			Assert::AreEqual(di.get_mem(), d.get_mem() + d.get_lIndex() + n / 2 + 1);
-
-			my_deque_iterator d2(d.get_mem() + d.get_lIndex() + 1, &d);
-			d2 += n;
-			Assert::AreEqual(d2.get_mem(), d.get_mem() + d.get_rIndex());
-
-			d2 += -6;
-			Assert::AreEqual(d2.get_mem(), (int*)nullptr);
-		}
-
-		TEST_METHOD(dereference)
-		{
-			my_deque d = my_deque(init_size);
-
-			int j = 0;
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
-
-			while (j < n) {
-				Assert::AreEqual(*di, d[j]);
-				++j;
-				di += 1;
-			}
-
-			auto func = [] {my_deque d(32); d.push_back(5); my_deque_iterator di2(d.get_mem() + d.get_rIndex(), &d); *di2; };
-			Assert::ExpectException<std::exception>(func);
-
-			auto func2 = [] {my_deque d(32); d.push_back(5); my_deque_iterator di3((int*)nullptr, &d); *di3; };
-			Assert::ExpectException<std::exception>(func2);
-		}
-
-		TEST_METHOD(less_than)
-		{
-			my_deque d = my_deque(init_size);
-			int j = 0;
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
-			my_deque_iterator di2(d.get_mem() + d.get_lIndex() + n / 2 + 1, &d);
-			Assert::IsTrue(di < di2);
-			Assert::IsFalse(di2 < di);
-
-			di += n / 2;
-			Assert::IsFalse(di < di2);
-			Assert::IsFalse(di2 < di);
-
-			// invalid comparison
-			auto func = [] {my_deque d(2); my_deque d2(2); my_deque_iterator di(d.get_mem() + d.get_rIndex(), &d); my_deque_iterator d2i(d2.get_mem() + d2.get_rIndex(), &d2); di < d2i; };
-			Assert::ExpectException<std::exception>(func);
-		}
-
-		TEST_METHOD(equivalence)
-		{
-			my_deque d = my_deque(init_size);
-			int j = 0;
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
-			my_deque_iterator di2(d.get_mem() + d.get_lIndex() + n / 2 + 1, &d);
-			Assert::IsFalse(di2 == di);
-
-			di += n / 2;
-			Assert::IsTrue(di == di2);
-		}
-
-		TEST_METHOD(begin_end_traverse_and_access_all)
-		{
-			my_deque d = my_deque(init_size);
-			int j = 0;
-
-			for (int i = 0; i < n; i++) {
-				d.push_back(i);
-			}
-
-			auto start = d.begin();
-			Assert::AreEqual(start.get_mem(), &d[0]);
-
-			auto end = d.end();
-			Assert::AreEqual(end.get_mem(), d.get_mem() + d.get_rIndex());
-
-			while (start < end) {
-				Assert::AreEqual(*start, d[j]);
-				++j;
-				start += 1;
-			}
-
-			Assert::IsTrue(start == d.end());
-			Assert::AreEqual(start.get_mem(), d.get_mem() + d.get_rIndex());
-		}
-	};
+	//TEST_CLASS(dequeiteratortest)
+//	{
+//	public:
+//
+//		TEST_METHOD(construct_past_the_end)
+//		{
+//			my_deque d = my_deque(init_size);
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque_iterator di(d.get_mem() + d.get_rIndex(), &d);
+//			Assert::AreEqual(d.get_mem() + d.get_rIndex(), di.get_mem());
+//		}
+//		TEST_METHOD(invalid_constructor)
+//		{
+//			my_deque d = my_deque(init_size);
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque d2(4);
+//			d2.push_back(5);
+//			my_deque_iterator di(d2.get_mem(), &d);
+//			Assert::AreEqual(di.get_mem(), (int*)nullptr);
+//
+//			my_deque_iterator di2(d.get_mem() - 1, &d);
+//			Assert::AreEqual(di2.get_mem(), (int*)nullptr);
+//		}
+//		TEST_METHOD(good_constructor)
+//		{
+//			my_deque d = my_deque(init_size);
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
+//			Assert::AreEqual(di.get_mem(), d.get_mem() + d.get_lIndex() + 1);
+//
+//			my_deque_iterator di2(d.get_mem() + d.get_lIndex() + n / 2, &d);
+//			Assert::AreEqual(d.get_mem() + d.get_lIndex() + n / 2, di2.get_mem());
+//		}
+//		TEST_METHOD(addition)
+//		{
+//			my_deque d = my_deque(init_size);
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
+//			my_deque_iterator di2 = di + n / 2;
+//			Assert::AreEqual(di2.get_mem(), d.get_mem() + d.get_lIndex() + n / 2 + 1);
+//
+//			my_deque_iterator di3 = di + n;
+//			Assert::AreEqual(di3.get_mem(), d.get_mem() + d.get_rIndex());
+//
+//			my_deque_iterator di4 = di2 + -6;
+//			Assert::AreEqual(di4.get_mem(), (int*)nullptr);
+//		}
+//
+//		TEST_METHOD(plus_equals)
+//		{
+//			my_deque d = my_deque(init_size);
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
+//			di += n / 2;
+//			Assert::AreEqual(di.get_mem(), d.get_mem() + d.get_lIndex() + n / 2 + 1);
+//
+//			my_deque_iterator d2(d.get_mem() + d.get_lIndex() + 1, &d);
+//			d2 += n;
+//			Assert::AreEqual(d2.get_mem(), d.get_mem() + d.get_rIndex());
+//
+//			d2 += -6;
+//			Assert::AreEqual(d2.get_mem(), (int*)nullptr);
+//		}
+//
+//		TEST_METHOD(dereference)
+//		{
+//			my_deque d = my_deque(init_size);
+//
+//			int j = 0;
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
+//
+//			while (j < n) {
+//				Assert::AreEqual(*di, d[j]);
+//				++j;
+//				di += 1;
+//			}
+//
+//			auto func = [] {my_deque d(32); d.push_back(5); my_deque_iterator di2(d.get_mem() + d.get_rIndex(), &d); *di2; };
+//			Assert::ExpectException<std::exception>(func);
+//
+//			auto func2 = [] {my_deque d(32); d.push_back(5); my_deque_iterator di3((int*)nullptr, &d); *di3; };
+//			Assert::ExpectException<std::exception>(func2);
+//		}
+//
+//		TEST_METHOD(less_than)
+//		{
+//			my_deque d = my_deque(init_size);
+//			int j = 0;
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
+//			my_deque_iterator di2(d.get_mem() + d.get_lIndex() + n / 2 + 1, &d);
+//			Assert::IsTrue(di < di2);
+//			Assert::IsFalse(di2 < di);
+//
+//			di += n / 2;
+//			Assert::IsFalse(di < di2);
+//			Assert::IsFalse(di2 < di);
+//
+//			// invalid comparison
+//			auto func = [] {my_deque d(2); my_deque d2(2); my_deque_iterator di(d.get_mem() + d.get_rIndex(), &d); my_deque_iterator d2i(d2.get_mem() + d2.get_rIndex(), &d2); di < d2i; };
+//			Assert::ExpectException<std::exception>(func);
+//		}
+//
+//		TEST_METHOD(equivalence)
+//		{
+//			my_deque d = my_deque(init_size);
+//			int j = 0;
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			my_deque_iterator di(d.get_mem() + d.get_lIndex() + 1, &d);
+//			my_deque_iterator di2(d.get_mem() + d.get_lIndex() + n / 2 + 1, &d);
+//			Assert::IsFalse(di2 == di);
+//
+//			di += n / 2;
+//			Assert::IsTrue(di == di2);
+//		}
+//
+//		TEST_METHOD(begin_end_traverse_and_access_all)
+//		{
+//			my_deque d = my_deque(init_size);
+//			int j = 0;
+//
+//			for (int i = 0; i < n; i++) {
+//				d.push_back(i);
+//			}
+//
+//			auto start = d.begin();
+//			Assert::AreEqual(start.get_mem(), &d[0]);
+//
+//			auto end = d.end();
+//			Assert::AreEqual(end.get_mem(), d.get_mem() + d.get_rIndex());
+//
+//			while (start < end) {
+//				Assert::AreEqual(*start, d[j]);
+//				++j;
+//				start += 1;
+//			}
+//
+//			Assert::IsTrue(start == d.end());
+//			Assert::AreEqual(start.get_mem(), d.get_mem() + d.get_rIndex());
+//		}
+//	};
 }
 
