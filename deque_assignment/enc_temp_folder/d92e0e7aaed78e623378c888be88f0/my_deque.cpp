@@ -46,7 +46,7 @@ unsigned int my_deque::get_size() {
 
 unsigned int my_deque::get_lIndex() {
 	
-	 /*lindex = (sizeOfArray/2) -1; 
+	 lindex = (sizeOfArray/2) -1; 
 	 if (arrayDeque[lindex] == NULL) {
 		 return lindex;
 	 }
@@ -63,13 +63,17 @@ unsigned int my_deque::get_lIndex() {
 		if (lindex == 0 && arrayDeque[lindex] != NULL) {
 			lindex = 4294967295;
 			return lindex;
-		}*/
+		}
 	
-	return lindex; 
+
 }
 
 unsigned int my_deque::get_rIndex() {
 	
+	if (rindex == (sizeOfArray - 1) && arrayDeque[rindex] != NULL) {
+		rindex = sizeOfArray; 
+		return rindex; 
+	}
 	return rindex; 
 }
 
@@ -79,82 +83,64 @@ void my_deque::push_back(int v) {
 	unsigned int leftIndex = get_lIndex(); 
 	unsigned int arraySize = get_size(); 
 
-	//number of elements in deque is greater than size/2 and no space left to insert next element on right
+	//number of elements in deque is greater than size/2 and no space left to insert next element
 	if (numElements > (arraySize / 2) && rightIndex == arraySize) {
 	//array has to be doubled in size
 		unsigned int newSize = arraySize + arraySize; 
 		 int* newArray = new int [newSize];
-		 unsigned int reCenterIndex = newSize / 4;
-		 //store where the value for the new lindex after the array is recentered
-		 leftIndex = reCenterIndex - 1;
 
-		 //fill all of the new array with all elements from arrayDeque
 		for (unsigned int i = 0; i < arraySize; i++) {
-			newArray[reCenterIndex] = arrayDeque[i];
-			reCenterIndex++;
+			newArray[i] = arrayDeque[i];
 		}
 		
-		rightIndex = reCenterIndex; 
 		sizeOfArray = newSize;
-
-		//make arrayDeque point to the new array that is double the size filled with all the elements
 		arrayDeque = new int[sizeOfArray];
 		for (unsigned int i = 0; i < sizeOfArray; i++) {
 			arrayDeque[i] = newArray[i];
 		}
-		lindex = leftIndex;
-		rindex = rightIndex;
+		lindex = get_lIndex(); 
+		rindex = get_rIndex(); 
 		arrayDeque[rindex] = v;
 		rindex++; 
 		
 	}
-	//elements in deque need to be recentered but we do not have to increase the size of the array
+	//elements in deque need to be recentered, that is all no new array is needed
 	else if (numElements <= (arraySize / 2) && rightIndex == arraySize) {
 		 int* newArray = new int[arraySize];
 		unsigned int reCenterIndex = arraySize / 4; 
-		//store where the value for the new lindex after the array is recentered
-		leftIndex = reCenterIndex - 1; 
-
-		//fill up the new array with all elements that were in the old array
+		 
 		for (unsigned int i = lindex; i < rindex; i++) {
 			newArray[reCenterIndex] = arrayDeque[i];
 			reCenterIndex++;
 		}
-		//store the value for the new rindex after the array is recentered
-		rightIndex = reCenterIndex; 
+		
 		arrayDeque = new int[sizeOfArray];
 		for (unsigned int i = 0; i < sizeOfArray; i++) {
 			arrayDeque[i] = newArray[i];
 		}
-		lindex = leftIndex; 
-		rindex = rightIndex; 
+		lindex = get_lIndex(); 
+		rindex = get_rIndex(); 
 		arrayDeque[rindex] = v; 
 		rindex++; 
 		
 	}
-	//we need to cut the array in half
 	else if (numElements < (arraySize / 8)) {
 		
 		unsigned int newSize = arraySize / 2; 
 		 int* newArray = new int[newSize];
 		unsigned int reCenterIndex = newSize / 4; 
-		//get the value for the updated left idex after recentering
-		leftIndex = reCenterIndex - 1; 
 
-		//fill up the new array with all elements that were in the old array
 		for (unsigned int i = lindex; i < rindex; i++) {
 			newArray[reCenterIndex] = arrayDeque[i];
 			reCenterIndex++; 
 		}
-		//get the value for the updated right Index after recentering
-		rightIndex = reCenterIndex; 
 		sizeOfArray = newSize;
 		arrayDeque = new int[sizeOfArray];
 		for (unsigned int i = 0; i < sizeOfArray; i++) {
 			arrayDeque[i] = newArray[i];
 		}
-		lindex = leftIndex;
-		rindex = rightIndex; 
+		lindex = get_lIndex();
+		rindex = get_rIndex();
 		arrayDeque[rindex] = v;
 		rindex++; 
 	}
@@ -172,29 +158,24 @@ void my_deque::push_front(int v) {
 	unsigned int arraySize = get_size();
 
 	//number of elements in deque is greater than size/2 and no space left to insert next element
-	//since unsigned if i do (0 minus 1) I get this big number, but I would rather it be -1
 	if (numElements > (arraySize / 2) && leftIndex == 4294967295) {
 		//array has to be doubled in size
-
 		unsigned int newSize = arraySize + arraySize;
 		int* newArray = new int[newSize];
 
-		unsigned int reCenterIndex = newSize / 4; 
-		leftIndex = reCenterIndex - 1; 
 		for (unsigned int i = 0; i < arraySize; i++) {
-			newArray[reCenterIndex] = arrayDeque[i];
-			reCenterIndex++;
+			newArray[i] = arrayDeque[i];
 		}
 		
-		rightIndex = reCenterIndex; 
+		
 		sizeOfArray = newSize;
 		arrayDeque = new int[sizeOfArray];
 		for (unsigned int i = 0; i < sizeOfArray; i++) {
 			arrayDeque[i] = newArray[i];
 		}
 		
-		lindex = leftIndex; 
-		rindex = rightIndex; 
+		lindex = get_lIndex();
+		rindex = get_rIndex();
 		arrayDeque[lindex] = v;
 		lindex--;
 
@@ -203,20 +184,19 @@ void my_deque::push_front(int v) {
 	else if (numElements <= (arraySize / 2) && leftIndex == 4294967295) {
 		 int* newArray = new int[arraySize];
 		unsigned int reCenterIndex = arraySize / 4;
-		leftIndex = reCenterIndex - 1;
+		lindex = 0; 
 		for (unsigned int i = lindex; i < rindex; i++) {
 			newArray[reCenterIndex] = arrayDeque[i];
 			reCenterIndex++;
 		}
 		
-		rightIndex = reCenterIndex; 
 		
 		arrayDeque = new int[sizeOfArray];
 		for (unsigned int i = 0; i < sizeOfArray; i++) {
 			arrayDeque[i] = newArray[i];
 		}
-		lindex = leftIndex;
-		rindex = rightIndex;
+		lindex = get_lIndex();
+		rindex = get_rIndex();
 		arrayDeque[lindex] = v;
 	    lindex--;
 
@@ -226,20 +206,19 @@ void my_deque::push_front(int v) {
 		unsigned int newSize = arraySize / 2;
 		 int* newArray = new int[newSize];
 		unsigned int reCenterIndex = newSize / 4;
-		leftIndex = reCenterIndex - 1; 
+
 		for (unsigned int i = lindex; i < rindex; i++) {
 			newArray[reCenterIndex] = arrayDeque[i];
 			reCenterIndex++;
 		}
 		
-		rightIndex = reCenterIndex; 
 		sizeOfArray = newSize;
 		arrayDeque = new int[sizeOfArray];
 		for (unsigned int i = 0; i < sizeOfArray; i++) {
 			arrayDeque[i] = newArray[i];
 		}
-		lindex = leftIndex;
-		rindex = rightIndex;
+		lindex = get_lIndex();
+		rindex = get_rIndex();
 		arrayDeque[lindex] = v;
 		lindex--;
 	}

@@ -17,7 +17,7 @@ namespace dequetest
 	{
 	public:
 
-		/*TEST_METHOD(push_back_pop_back)
+		TEST_METHOD(push_back_pop_back)
 		{
 			my_deque d = my_deque(init_size);
 			for (int i = 0; i < n; i++) {
@@ -126,7 +126,7 @@ namespace dequetest
 				Assert::AreEqual((n * 10 - (i + 1)), front_ret);
 			}
 		}
-*/
+
 		TEST_METHOD(random_test_large)
 		{
 			srand(time(NULL));
@@ -172,31 +172,31 @@ namespace dequetest
 			Assert::ExpectException<std::exception>(func2);
 		}
 
-		//TEST_METHOD(recenter_back)
-		//{
+		TEST_METHOD(recenter_back)
+		{
 
-		//	my_deque d = my_deque(init_size);
-		//	size_t start_size = d.get_size();
+			my_deque d = my_deque(init_size);
+			size_t start_size = d.get_size();
 
-		//	for (int i = 0; i < n; i++) {
-		//		d.push_back(i);
-		//		Assert::AreEqual(i, d.pop_front());
-		//	}
+			for (int i = 0; i < n; i++) {
+				d.push_back(i);
+				Assert::AreEqual(i, d.pop_front());
+			}
 
-		//	Assert::IsTrue(d.get_size() <= start_size);
-		//}
+			Assert::IsTrue(d.get_size() <= start_size);
+		}
 
-		//TEST_METHOD(recenter_front)
-		//{
-		//	my_deque d = my_deque(init_size);
-		//	size_t start_size = d.get_size();
-		//	for (int i = 0; i < n; i++) {
-		//		d.push_front(i);
-		//		Assert::AreEqual(i, d.pop_back());
-		//	}
+		TEST_METHOD(recenter_front)
+		{
+			my_deque d = my_deque(init_size);
+			size_t start_size = d.get_size();
+			for (int i = 0; i < n; i++) {
+				d.push_front(i);
+				Assert::AreEqual(i, d.pop_back());
+			}
 
-		//	Assert::IsTrue(d.get_size() <= start_size);
-		//}
+			Assert::IsTrue(d.get_size() <= start_size);
+		}
 
 		TEST_METHOD(subscript)
 		{
@@ -231,7 +231,7 @@ namespace dequetest
 				Assert::AreEqual(d_copy[i], d[i]);
 			}
 
-			Assert::IsTrue(!memcmp(d_copy.get_mem(),
+			Assert::IsTrue(!memcmp(d_copy.get_mem() + d_copy.get_lIndex() + 1, d.get_mem() + d.get_lIndex() + 1, d.get_used() * sizeof(int)));,
 				d.get_mem(),
 				d.get_size() * sizeof(int)));
 
