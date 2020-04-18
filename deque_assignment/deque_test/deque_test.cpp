@@ -16,6 +16,63 @@ namespace dequetest
 	TEST_CLASS(dequetest)
 	{
 	public:
+		//Here is the test method that I wrote
+		TEST_METHOD(getSmaller) {
+			unsigned int size = 4;
+			my_deque d = my_deque(size);
+			//There is a deque of size 4, and we push in 32 numbers, so it should grow
+			//in the for loop we push in 32 numbers in the deque of size 4, so the size should double each time it is full to allow for more inputs
+
+			for (int i = 0; i < 32; i = i + 2) {
+				d.push_front(i);
+				d.push_back(i + 1);
+			}
+			
+			//So at this point the size is 64 
+			
+			//we want to pop out the numbers until the array is forced to get smaller
+			//it should get smaller when there are less than 8 elements --> size of 32
+			//then it should get smaller from 32 when there are less than 4 elements --> size of 16
+			//finally it should get smaller when there are less than 2 elements --> size of 8
+			//and then it will get smaller again when there is lesws than 1 element to be a size of 4 (initial size)
+		     for (int i = 0; i < 32; i++) {
+				 d.pop_front(); 
+			 }
+
+			//Since the size of the array should be 16 at this point, this is what we check
+			unsigned int smallSize = 4; 
+		    Assert::AreEqual(smallSize, d.get_size());
+		}
+
+		//another test I wrote to complement the first test I wrote
+		TEST_METHOD(getSmallerTwo) {
+			unsigned int size = 8;
+			my_deque d = my_deque(size);
+			//There is a deque of size 4, and we push in 32 numbers, so it should grow
+			//in the for loop we push in 32 numbers in the deque of size 4, so the size should double each time it is full to allow for more inputs
+
+			for (int i = 0; i < 32; i = i + 2) {
+				d.push_front(i);
+				d.push_back(i + 1);
+			}
+
+			//So at this point the size is 64 
+
+			//we want to pop out the numbers until the array is forced to get smaller
+			//it should get smaller when there are less than 8 elements --> size of 32
+			//then it should get smaller from 32 when there are less than 4 elements --> size of 16
+			//finally it should get smaller when there are less than 2 elements --> size of 8
+			//and then it will get smaller again when there is lesws than 1 element to be a size of 4 (initial size)
+			for (int i = 0; i < 32; i++) {
+				d.pop_front();
+			}
+
+			//Since the size of the array should be 16 at this point, this is what we check
+			unsigned int smallSize = 8;
+			Assert::AreEqual(smallSize, d.get_size());
+		}
+
+
 
 		TEST_METHOD(push_back_pop_back)
 		{
@@ -214,33 +271,27 @@ namespace dequetest
 			Assert::ExpectException<std::exception>(func);
 		}
 
-		/*TEST_METHOD(copy)
+		TEST_METHOD(copy)
 		{
 			my_deque d = my_deque(init_size);
-
 			for (int i = 0; i < n; i += 2) {
 				d.push_front(i);
 				d.push_back(i + 1);
 			}
-
 			my_deque d_copy(d);
 			Assert::AreEqual(d_copy.get_size(), d.get_size());
 			Assert::AreNotEqual(d_copy.get_mem(), d.get_mem());
-
 			for (int i = 0; i < n; i++) {
 				Assert::AreEqual(d_copy[i], d[i]);
 			}
-
-			Assert::IsTrue(!memcmp(d_copy.get_mem() + d_copy.get_lIndex() + 1, d.get_mem() + d.get_lIndex() + 1, d.get_used() * sizeof(int)));,
+			Assert::IsTrue(!memcmp(d_copy.get_mem(),
 				d.get_mem(),
 				d.get_size() * sizeof(int)));
-
 			for (int i = 0; i < n; i += 2) {
 				Assert::AreEqual(d_copy.pop_back(), d.pop_back());
-
 				Assert::AreEqual(d_copy.pop_front(), d.pop_front());
 			}
-		}*/
+		}
 	};
 
 	//TEST_CLASS(dequeiteratortest)

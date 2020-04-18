@@ -6,6 +6,7 @@
 using namespace std; 
 
 class my_deque {
+	unsigned int init_size; 
 	unsigned int rindex;
 	unsigned int lindex;
 	unsigned int sizeOfArray;

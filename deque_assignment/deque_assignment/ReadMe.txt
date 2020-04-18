@@ -29,3 +29,20 @@ Deep vs. Shallow Copy:
 	However, if the memory locations of alpha and beta are different, this insinuates that the constructor made a deep copy. This is true because a shallow copy simply 
 	re-aliases existing resources, and if a shallow copy was made beta would've pointed to the already existing memory location of alpha. 
 	A deep copy makes a new and separate copy with a new memory location, and this is precisely what happens. 
+
+	Extra Credit: 
+	Test I created: getSmaller and getSmallerTwo
+	Explanation of getSmaller:
+	So, in my review of the test cases, I noticed that there is one resizing test case that the test suite does not include. And this is the test case 
+	of cutting the size of the array in half when the number of elements in it is less than an eigth of the array's size. To test this, 
+	I make a deque object and initialize to have an initial size of 4. I then fill the deque with 32 elements until the size of the deque increases to 64. 
+	I then take out the 32 elements using the pop_front() method. According to the correct resizing logic, as elements are removed from the deque, 
+	the deque size should be cut in half when the number of elements in the array is less than an eigth of the size. So, before I start popping, 
+	there are 32 elements in a deque size of 64. So, the first halved resize is supposed to happen when there are less than 8 elements. When there are 
+	less than 8 elements, the deque should go from a size of 64 to 32. Then again, as I keep popping elements, when the number of elements is 
+	less than an eigth of the size (32 at this point) the size is cut in half. So when there re less than 4 elements, the size is cut in half from 
+	32 to 16. Again, when there are less 16/8 = 2 elements, the size of the array will be cut in half from 16 to 8. And finally, when there are less than 1 (8/8 = 1) element, 
+	the size of the array will be cut in half from 8 to 4. The final size of the deque after all the pushing and popping should then be 4 if the resizing functionality of the 
+	pop methods works. During the iterative pops from the deque, whenever the array is supposed to be cut in half, my code makes sure that the size it will be decreased to is not 
+	less than initial size. I even check this in another test called getSmallerTwo. In getSmallerTwo, I have the same code as getSmaller but the initial size of the array is set to 8, 
+	so the final size of the deque won't be 4 because that is less than 8. Thus, the final size should be 8 and it is.
