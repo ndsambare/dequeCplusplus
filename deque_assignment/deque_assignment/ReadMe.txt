@@ -2,6 +2,14 @@ Answer any exam questions here
 Name: Namit Sambare
 WUSTL ID: 465010
 
+
+IMPORTANT NOTE: I have declared all methods and implemented all methods in my_deque_iterator.cpp, but I was not able to implement 
+the begin and end functionality. I am really hoping that I can still get some credit for the code I have completed still as it is 
+a lot of it (I worked on the iterator implementation for at least 8 hours). However, I wanted to let you know I do in fact have code in the iterator.cpp as I will be commenting it all out
+so that my deque tests still pass. 
+
+
+
 Deep vs. Shallow Copy: 
  	Below is my code experiment to determine if the std::deque() constructor makes a shallow or deep copy.
 
